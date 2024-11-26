@@ -1,0 +1,3 @@
+/home/user/PMI/SecondCourse/Neural-Networks-from-Scratch/vector_implementation/cmake-build-debug/CMakeFiles/vector_implementation.dir
+/home/user/PMI/SecondCourse/Neural-Networks-from-Scratch/vector_implementation/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/user/PMI/SecondCourse/Neural-Networks-from-Scratch/vector_implementation/cmake-build-debug/CMakeFiles/rebuild_cache.dir
