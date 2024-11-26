@@ -32,7 +32,7 @@ public:
     Vector(const Vector& other);
     Vector(Vector&& other) noexcept;
     ~Vector();
-    Vector& operator=(const Vector& other);
+    Vector& operator=(Vector other);
     Vector& operator=(Vector&& other) noexcept;
 
     void push_back(const T& value);
@@ -53,8 +53,13 @@ Vector<T>::Vector() : data(nullptr), size(0), capacity(0) {}
 
 template <typename T>
 Vector<T>::Vector(const Vector& other) : data(new T[other.capacity]), size(other.size), capacity(other.capacity) {
-    for (size_t i = 0; i < size; ++i) {
-        data[i] = other.data[i];
+    try {
+        for (size_t i = 0; i < size; ++i) {
+            data[i] = other.data[i];
+        }
+    } catch (...) {
+        delete[] data;
+        throw ;
     }
 }
 
@@ -71,15 +76,10 @@ Vector<T>::~Vector() {
 }
 
 template <typename T>
-Vector<T>& Vector<T>::operator=(const Vector& other) {
-    if (this == &other) return *this;
-    delete[] data;
-    data = new T[other.capacity];
-    size = other.size;
-    capacity = other.capacity;
-    for (size_t i = 0; i < size; ++i) {
-        data[i] = other.data[i];
-    }
+Vector<T>& Vector<T>::operator=(Vector other) {
+    std::swap(data, other.data);
+    std::swap(size, other.size);
+    std::swap(capacity, other.capacity);
     return *this;
 }
 
@@ -99,8 +99,13 @@ Vector<T>& Vector<T>::operator=(Vector&& other) noexcept {
 template <typename T>
 void Vector<T>::resize_capacity(size_t new_capacity) {
     T* new_data = new T[new_capacity];
-    for (size_t i = 0; i < size; ++i) {
-        new_data[i] = std::move(data[i]);
+    try {
+        for (size_t i = 0; i < size; ++i) {
+            new_data[i] = std::move(data[i]);
+        }
+    } catch (...) {
+        delete[] new_data;
+        throw;
     }
     delete[] data;
     data = new_data;
